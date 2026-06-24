@@ -1,0 +1,55 @@
+services:
+  lavalink:
+    image: ghcr.io/lavalink-devs/lavalink:4
+    container_name: lavalink
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
+    ports:
+      - "127.0.0.1:2333:2333"
+    volumes:
+      - ./application.yml:/opt/Lavalink/application.yml:ro
+      - ./plugins:/opt/Lavalink/plugins
+      - ./logs:/opt/Lavalink/logs
+      - ./data:/opt/Lavalink/data
+    ulimits:
+      nofile:
+        soft: 1048576
+        hard: 1048576
+    mem_limit: 2500m
+    cpus: 1.75
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:2333/health | grep -qi UP || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: lavalink-prometheus
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+
+  grafana:
+    image: grafana/grafana:11.1.5
+    container_name: lavalink-grafana
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=CHANGE_ME
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+
+volumes:
+  prometheus-data:
+  grafana-data:

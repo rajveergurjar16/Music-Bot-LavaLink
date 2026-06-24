@@ -1,0 +1,13 @@
+[sshd]
+enabled = true
+backend = systemd
+maxretry = 5
+findtime = 10m
+bantime = 1h
+
+# Optional: protect reverse proxy auth endpoint if exposed publicly.
+#[nginx-http-auth]
+#enabled = true
+#port = http,https
+#logpath = /var/log/nginx/error.log
+#maxretry = 6

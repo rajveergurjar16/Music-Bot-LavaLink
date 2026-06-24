@@ -1,0 +1,12 @@
+-Xms768m
+-Xmx1536m
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=100
+-XX:InitiatingHeapOccupancyPercent=30
+-XX:G1ReservePercent=20
+-XX:ParallelGCThreads=2
+-XX:ConcGCThreads=1
+-XX:+AlwaysPreTouch
+-XX:+DisableExplicitGC
+-Dfile.encoding=UTF-8
+-Dsun.jnu.encoding=UTF-8

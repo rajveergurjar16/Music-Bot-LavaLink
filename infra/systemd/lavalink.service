@@ -1,0 +1,22 @@
+[Unit]
+Description=Lavalink v4 Audio Node
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lavalink
+Group=lavalink
+WorkingDirectory=/opt/lavalink
+EnvironmentFile=/opt/lavalink/.env
+Environment="JAVA_TOOL_OPTIONS=-Xms768m -Xmx1536m -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:InitiatingHeapOccupancyPercent=30 -XX:G1ReservePercent=20 -XX:ParallelGCThreads=2 -XX:ConcGCThreads=1 -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
+ExecStart=/usr/bin/java $JAVA_TOOL_OPTIONS -jar /opt/lavalink/Lavalink.jar --spring.config.location=file:/opt/lavalink/application.yml
+Restart=always
+RestartSec=5
+LimitNOFILE=1048576
+TimeoutStartSec=60
+TimeoutStopSec=30
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+# OS / editor files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Secrets and local env files
+.env
+.env.*
+!*.env.example
+
+# Node / Java / build artifacts
+node_modules/
+dist/
+build/
+target/
+*.log
+
+# Lavalink runtime data
+infra/lavalink/logs/
+infra/lavalink/data/
+infra/lavalink/plugins/
+
+# Monitoring runtime data
+infra/monitoring/grafana/data/
+infra/monitoring/prometheus/data/
+
+# Temporary files
+tmp/
+temp/
